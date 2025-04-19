@@ -30,7 +30,7 @@ const Home:React.FC = () => {
 
 
   return (
-    <div>
+    <div className='min-h-screen bg-gray-50'>
       <nav>
         <div>
           <div>

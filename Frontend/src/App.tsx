@@ -7,7 +7,7 @@ import Login from "./Components/Auth/Login"
 import Register from "./Components/Auth/Register"
 import PrivateRoute from "./Components/Routing/PrivateRoute"
 import Home from "./Components/User/Home"
-
+import Dashboard from './Components/Admin/Dashboard'
 
 
 
@@ -32,12 +32,12 @@ const App: React.FC = () => {
             <Home />
           </PrivateRoute>
         }/>
-        {/* <Route path="/profile" element= {
+        <Route path="/profile" element= {
           <PrivateRoute requireAdmin={true}>
             <Dashboard/>
           </PrivateRoute>
         }
-        /> */}
+        />
         <Route path="/" element={<Navigate to="/home" replace />} />
         <Route path="*" element={<Navigate to="/home" replace />} />
         </Routes>
