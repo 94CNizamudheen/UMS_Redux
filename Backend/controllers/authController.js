@@ -1,8 +1,8 @@
 
 import jwt from 'jsonwebtoken';
-import User from '../models/user';
-import { jwtSecret,jwtExpiration } from '../config/auth';
-import {errorResponse,successResponse} from '../utils/response'
+import User from '../models/user.js';
+import { jwtSecret,jwtExpiration } from '../config/auth.js';
+import {errorResponse,successResponse} from '../utils/response.js'
 
 const genarateToken=(id)=>{
     return jwt.sign({id},jwtSecret,{
@@ -10,7 +10,8 @@ const genarateToken=(id)=>{
     })
 };
 
-export const register= async(req,res,next)=>{
+const register= async(req,res,next)=>{
+    console.log("registration invoked")
     try {
         const {username,email,password}=req.body;
         const userExists= await User.findOne({email});
@@ -42,14 +43,15 @@ export const register= async(req,res,next)=>{
         next(error)
     }
 };
-export const login= async(req,res,next)=>{
+ const login= async(req,res,next)=>{
+    console.log("Login invoked")
     try {
         const{email,password}=req.body;
         const user= await User.findOne({email}).select('+password');
         if(!user){
             return errorResponse(res,400,"Invalid Credentials")
         }
-        const isMatch= await user.matchResponse(password);
+        const isMatch= await user.matchPassword(password);
         if(!isMatch){
             return errorResponse(res,401,'Invalid credentials')
         }
@@ -72,7 +74,7 @@ export const login= async(req,res,next)=>{
     }
 };
 
-export const getCurrentUser=async(req,res,next)=>{
+const getCurrentUser=async(req,res,next)=>{
     try {
         const user=await User.findById(req.user.id);
         if(!user){
@@ -84,4 +86,10 @@ export const getCurrentUser=async(req,res,next)=>{
     }
 };
 
+const authController={
+    register,login,getCurrentUser
+};
+
+
+export {authController}
  

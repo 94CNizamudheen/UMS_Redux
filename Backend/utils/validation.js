@@ -1,4 +1,4 @@
-import {errorResponse} from './response';
+import {errorResponse} from './response.js';
 
 export  const validateRegisterInput=(req,res,next)=>{
     const {username,email,password}=req.body;

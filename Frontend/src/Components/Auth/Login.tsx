@@ -32,14 +32,15 @@ const Login: React.FC = () => {
     const formik = useFormik({
         initialValues: {
             email: '',
-            passWord: '',
+            password: '',
         },
         validationSchema: Yup.object({
             email: Yup.string().email('invalid email address').required('Required'),
-            passWord: Yup.string().required('Required'),
+            password: Yup.string().required('Required'),
         }),
         onSubmit: (values) => {
-            dispatch(login(values))
+            dispatch(login({ email: values.email, password: values.password }));
+            
         }
 
     })
@@ -70,10 +71,10 @@ const Login: React.FC = () => {
                     <div>
                         <label htmlFor="password">Password</label>
                         <input type="password" id='password' name='password' autoComplete='current-password' 
-                        required value={formik.values.passWord} onChange={formik.handleChange} onBlur={formik.handleBlur} 
+                        required value={formik.values.password} onChange={formik.handleChange} onBlur={formik.handleBlur} 
                         className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'/>
-                        {formik.touched.passWord && formik.errors.passWord ?(
-                            <div className='text-red-500 text-xs mt-1'>{formik.errors.passWord}</div>
+                        {formik.touched.password && formik.errors.password ?(
+                            <div className='text-red-500 text-xs mt-1'>{formik.errors.password}</div>
                         ):null}
                         </div>
                     </div>

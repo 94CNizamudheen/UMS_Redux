@@ -12,16 +12,19 @@ const Home:React.FC = () => {
   const {user,isAuthenticated}=useAppSelector((state)=>state.auth);
 
 
-  useEffect(()=>{
-    if(!isAuthenticated){
-      navigate('/login')
-    };
+useEffect(() => {
+  if (user) {
+    if (user.role === 'admin') {
+      navigate('/admin/dashboard');
+    } else {
 
-    if(user?.role==='admin'){
-      navigate('/admin/dashboard')
+      navigate('/home');
     }
+  } else if (!isAuthenticated) {
+    navigate('/login');
+  }
+}, [navigate, isAuthenticated, user]);
 
-  },[navigate,isAuthenticated,user])
 
   const handleLogout=()=>{
     dispatch(logout());
@@ -31,38 +34,38 @@ const Home:React.FC = () => {
 
   return (
     <div className='min-h-screen bg-gray-50'>
-      <nav>
-        <div>
-          <div>
-            <div>
-              <div>
-                <span>User Portel</span>
+      <nav className="bg-indigo-600 text-white shadow-md">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <span className="text-xl font-bold">User Portel</span>
               </div>
-            </div>
-            <div>
-              <Link to={'/profile'}>Profile</Link>
-              <button onClick={handleLogout}>Logout</button>
+            </div >
+            <div className="flex items-center">
+              <Link to={'/profile'}  className="text-white hover:bg-indigo-700 px-3 py-2 rounded-md text-sm font-medium" >Profile</Link>
+              <button onClick={handleLogout} className="ml-4 text-white hover:bg-indigo-700 px-3 py-2 rounded-md text-sm font-medium">Logout</button>
             </div>
           </div>
         </div>
       </nav>
-      <div>
-        <div>
-          <h1 > Welcome,{user?.username}!</h1>
-          <div>
-            <h2>Your Account details</h2>
-            <div>
-              <p>Email:</p>
-              <p>{user?.email}</p>
+      <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <div className="bg-white shadow-md rounded-lg p-6">
+          <h1 className="text-3xl font-bold text-gray-900 mb-6" > Welcome,{user?.username}!</h1>
+          <div className="bg-gray-50 p-4 rounded-md mb-6" >
+            <h2 className="text-xl font-semibold mb-2">Your Account details</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <p className="text-gray-600">Email:</p>
+              <p className="font-medium">{user?.email}</p>
             </div>
             <div>
-              <p>Account Created:</p>
-              <p>{user?.createdAt?new Date(user.createdAt).toLocaleDateString(): 'N/A' }</p>
+              <p className="text-gray-600">Account Created:</p>
+              <p className="font-medium">{user?.createdAt?new Date(user.createdAt).toLocaleDateString(): 'N/A' }</p>
             </div>
           </div>
         </div>
         <div>
-          <Link to="/profile">Update your profile</Link>
+          <Link to="/profile" className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Update your profile</Link>
         </div>
       </div>
     </div>

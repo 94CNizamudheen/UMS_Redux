@@ -11,7 +11,7 @@ const Register:React.FC=() => {
     const dispatch=useAppDispatch();
     const navigate=useNavigate()
     const {isAuthenticated,isLoading,error,user}= useAppSelector((state)=>state.auth);
-
+  
     useEffect(()=>{
       // Clear any previous errors when component mounts
       dispatch(clearError())
@@ -28,20 +28,22 @@ const Register:React.FC=() => {
     initialValues: {
       username: '',
       email: '',
-      passWord: '',
+      password: '',
       confirmPassword: '',
     },
     validationSchema: Yup.object({
       username: Yup.string().required('Required'),
       email: Yup.string().email('Invalid email address').required('Required'),
-      passWord: Yup.string().min(6, 'Must be at least 6 characters').required('Required'),
+      password: Yup.string().min(6, 'Must be at least 6 characters').required('Required'),
       confirmPassword: Yup.string()
-        .oneOf([Yup.ref('passWord')], 'Passwords must match')
+        .oneOf([Yup.ref('password')], 'Passwords must match')
         .required('Required'),
     }),
     onSubmit: (values) => {
-      const { username, email, passWord } = values;
-      dispatch(register({ username, email, passWord }));
+      
+      const { username, email, password } = values;
+      dispatch(register({ username, email, password }));
+      navigate("/login")
     },
   });
 
@@ -80,16 +82,16 @@ const Register:React.FC=() => {
               </div>
               <div>
                 <label htmlFor="password" className="sr-only">Password</label>
-                <input type="password" id='password' name='password' placeholder='Password' autoComplete='password' required
-                value={formik.values.passWord} onChange={formik.handleChange} onBlur={formik.handleBlur}
-                className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'  />
-                {formik.values.passWord && formik.errors.passWord ?(
-                  <div className="text-red-500 text-xs mt-1">{formik.errors.passWord}</div>
+                <input type="password" id='password' name='password' placeholder='Password' autoComplete='new-password' required
+                value={formik.values.password} onChange={formik.handleChange} onBlur={formik.handleBlur}
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"  />
+                {formik.values.password && formik.errors.password ?(
+                  <div className="text-red-500 text-xs mt-1">{formik.errors.password}</div>
                 ):null}
               </div>
               <div>
                 <label htmlFor="confirmPassword" className="sr-only">Email</label>
-                <input type="password" id='confirmPassword' name='confirmPassword' placeholder='Confirm Password' autoComplete='confirmPassword' required
+                <input type="password" id='confirmPassword' name='confirmPassword' placeholder='Confirm Password' autoComplete='new-password' required
                 value={formik.values.confirmPassword} onChange={formik.handleChange} onBlur={formik.handleBlur}
                 className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'  />
                 {formik.values.confirmPassword && formik.errors.confirmPassword ?(

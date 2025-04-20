@@ -1,7 +1,7 @@
 
 import mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
-const {saltRounds}= require('../config/auth');
+import bcrypt from 'bcryptjs';
+import {saltRounds} from '../config/auth.js';
 
 const UserSchema=new mongoose.Schema(
     {

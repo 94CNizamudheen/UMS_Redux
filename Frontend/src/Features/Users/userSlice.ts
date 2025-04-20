@@ -22,7 +22,7 @@ export const fetchUsers=createAsyncThunk(
                     Authorizatiion:`Bearer ${state.auth.token}`
                 }
             }
-            const response= await axios.get('/api/users',config);
+            const response= await axios.get('http://localhost:8888/api/users',config);
             return response.data;
         } catch (error:any) {
             return rejectWithValue(error.response?.data?.message|| "Failed to fetch")
@@ -40,7 +40,7 @@ export const fetchUserbyId=createAsyncThunk(
                     Autherization:`Bearer ${state.auth.token}`
                 }
             };
-            const response= await axios.get(`api/users/${userId}`,config);
+            const response= await axios.get(`http://localhost:8888/api/users/${userId}`,config);
             return response.data;
         } catch (error:any) {
             return rejectWithValue(error.response?.data?.message|| "failed to fetch user")
@@ -58,7 +58,7 @@ export const createUser=createAsyncThunk(
                     Authorization:`Bearer ${state.auth.token}`
                 }
             }
-            const response= await axios.post('api/users',userData,config);
+            const response= await axios.post('http://localhost:8888/api/users',userData,config);
             return response.data
         } catch (error:any) {
             return rejectWithValue(error.response?.data?.message||'Failed to create user')
@@ -76,7 +76,7 @@ export const updateUser=createAsyncThunk(
                     Authorization:`Bearer ${state.auth.token}`
                 }
             };
-            const response= await axios.put(`api/users/${userId}`,userData,config);
+            const response= await axios.put(`http://localhost:8888/api/users/${userId}`,userData,config);
             return response.data;
         } catch (error:any) {
             return rejectWithValue(error?.data?.message|| "Failed to update User")
@@ -93,7 +93,7 @@ export const deleteUser=createAsyncThunk(
                     Authoriozation:`Bearer ${state.auth.token}`
                 }
             };
-            const response= await axios.delete(`/api/users/${userId}`,config);
+            const response= await axios.delete(`http://localhost:8888/api/users/${userId}`,config);
             return response.data;
         } catch (error:any) {
             return rejectWithValue(error?.data?.message||"Failed to delete User")
