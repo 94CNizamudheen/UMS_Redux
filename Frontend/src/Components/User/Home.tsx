@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+
 import { useAppDispatch, useAppSelector } from '../../App/hooks'
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../../Features/Auth/authSlice';
@@ -9,21 +9,9 @@ import { Link } from 'react-router-dom';
 const Home:React.FC = () => {
   const dispatch=useAppDispatch();
   const navigate=useNavigate();
-  const {user,isAuthenticated}=useAppSelector((state)=>state.auth);
+  const {user}=useAppSelector((state)=>state.auth);
 
 
-useEffect(() => {
-  if (user) {
-    if (user.role === 'admin') {
-      navigate('/admin/dashboard');
-    } else {
-
-      navigate('/home');
-    }
-  } else if (!isAuthenticated) {
-    navigate('/login');
-  }
-}, [navigate, isAuthenticated, user]);
 
 
   const handleLogout=()=>{
@@ -39,11 +27,11 @@ useEffect(() => {
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <span className="text-xl font-bold">User Portel</span>
+                <span className="text-xl font-bold">{user?.role==="admin" ? "Admin portal ": "User Portal" }</span>
               </div>
             </div >
             <div className="flex items-center">
-              <Link to={'/profile'}  className="text-white hover:bg-indigo-700 px-3 py-2 rounded-md text-sm font-medium" >Profile</Link>
+              <Link to={'/profile'}  className="text-white hover:bg-indigo-700 px-3 py-2 rounded-md text-sm font-medium" >profile</Link>
               <button onClick={handleLogout} className="ml-4 text-white hover:bg-indigo-700 px-3 py-2 rounded-md text-sm font-medium">Logout</button>
             </div>
           </div>
@@ -65,7 +53,13 @@ useEffect(() => {
           </div>
         </div>
         <div>
-          <Link to="/profile" className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Update your profile</Link>
+         {
+          user?.role === "admin" ? ( <Link to="/admin/Dashboard" className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          Go to dashboard
+          </Link>):( <Link to="/profile" className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          Go to profile
+          </Link>)
+         }
         </div>
       </div>
     </div>

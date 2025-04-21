@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, } from 'react'
 import { useAppDispatch, useAppSelector } from '../../App/hooks'
 import { useNavigate } from 'react-router-dom';
 import { clearError, login } from '../../Features/Auth/authSlice';
@@ -12,19 +12,18 @@ const Login: React.FC = () => {
     const { isAuthenticated, isLoading, error, user } = useAppSelector((state) => state.auth);
 
 
+
+
     useEffect(() => {
         // Clear any previous errors when component mounts
         dispatch(clearError())
+         
     }, [dispatch]);
 
     useEffect(() => {
         // Redirect based on role if authenticated
         if (isAuthenticated && user) {
-            if (user.role === 'admin') {
-                navigate('/admin/dashboard');
-            } else {
                 navigate('/home');
-            }
         }
     }, [isAuthenticated, user, navigate]);
 

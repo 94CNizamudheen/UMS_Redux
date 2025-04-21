@@ -1,23 +1,20 @@
-import { useEffect } from "react"
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+
+import { BrowserRouter as Router, Routes, Route,  } from 'react-router-dom';
 import { store } from "./App/store"
-import { loadUser } from "./Features/Auth/authSlice"
+
 import { Provider } from "react-redux"
 import Login from "./Components/Auth/Login"
 import Register from "./Components/Auth/Register"
 import PrivateRoute from "./Components/Routing/PrivateRoute"
 import Home from "./Components/User/Home"
 import Dashboard from './Components/Admin/Dashboard'
+import UserProfile from './Components/User/UserProfile';
 
 
 
 const App: React.FC = () => {
 
-  useEffect(() => {
-    if (localStorage.getItem('token')) {
-      store.dispatch(loadUser())
-    }
-  }, [])
+
 
   return (
     <Provider store={store} >
@@ -32,14 +29,20 @@ const App: React.FC = () => {
             <Home />
           </PrivateRoute>
         }/>
-        <Route path="/profile" element= {
+        <Route path="/admin/Dashboard" element= {
           <PrivateRoute requireAdmin={true}>
             <Dashboard/>
           </PrivateRoute>
         }
         />
-        <Route path="/" element={<Navigate to="/home" replace />} />
-        <Route path="*" element={<Navigate to="/home" replace />} />
+
+      <Route path="/profile" element= { 
+          <PrivateRoute >
+            <UserProfile/>
+          </PrivateRoute>
+        }
+        />
+
         </Routes>
       </Router>
     </Provider>

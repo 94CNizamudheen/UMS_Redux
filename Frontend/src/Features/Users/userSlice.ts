@@ -19,11 +19,12 @@ export const fetchUsers=createAsyncThunk(
             const state:any=getState();
             const config={
                 headers:{
-                    Authorizatiion:`Bearer ${state.auth.token}`
+                    Authorization:`Bearer ${state.auth.token}`
                 }
             }
             const response= await axios.get('http://localhost:8888/api/users',config);
-            return response.data;
+            console.log(response)
+            return response.data.data;
         } catch (error:any) {
             return rejectWithValue(error.response?.data?.message|| "Failed to fetch")
         }
@@ -37,11 +38,11 @@ export const fetchUserbyId=createAsyncThunk(
             const state:any=getState();
             const config={
                 headers:{
-                    Autherization:`Bearer ${state.auth.token}`
+                    Authorization:`Bearer ${state.auth.token}`
                 }
             };
             const response= await axios.get(`http://localhost:8888/api/users/${userId}`,config);
-            return response.data;
+            return response.data.data;
         } catch (error:any) {
             return rejectWithValue(error.response?.data?.message|| "failed to fetch user")
         }
@@ -59,7 +60,7 @@ export const createUser=createAsyncThunk(
                 }
             }
             const response= await axios.post('http://localhost:8888/api/users',userData,config);
-            return response.data
+            return response.data.data
         } catch (error:any) {
             return rejectWithValue(error.response?.data?.message||'Failed to create user')
         }
@@ -77,7 +78,7 @@ export const updateUser=createAsyncThunk(
                 }
             };
             const response= await axios.put(`http://localhost:8888/api/users/${userId}`,userData,config);
-            return response.data;
+            return response.data.data;
         } catch (error:any) {
             return rejectWithValue(error?.data?.message|| "Failed to update User")
         }
@@ -90,7 +91,7 @@ export const deleteUser=createAsyncThunk(
             const state:any= getState();
             const config={
                 headers:{
-                    Authoriozation:`Bearer ${state.auth.token}`
+                    Authorization:`Bearer ${state.auth.token}`
                 }
             };
             const response= await axios.delete(`http://localhost:8888/api/users/${userId}`,config);
@@ -178,5 +179,5 @@ const usersSlice=createSlice({
     }
 })
 
-export const {setSelectedUser,clearError}=usersSlice.actions;
+export const {setSelectedUser,clearError,}=usersSlice.actions;
 export default usersSlice.reducer;

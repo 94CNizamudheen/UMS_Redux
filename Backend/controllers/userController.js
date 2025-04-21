@@ -9,7 +9,7 @@ import path from 'path';
 const getUsers=async(req,res,next)=>{
     try {
         const users= await User.find().select('-__v');
-        return successEsponse(res,200,users);
+        return successResponse(res,200,users);
     } catch (error) {
         next(error);
     }
@@ -41,7 +41,7 @@ const createUser=async(req,res,next)=>{
             role,
         })
         if(user){
-            return successEsponse(res,200,user)
+            return successResponse(res,200,user)
         }else{
             return errorResponse(res,400,"Invalid user Data")
         }
@@ -71,7 +71,7 @@ const updateUser=async(req,res,next)=>{
         if(profileImage) user.profileImage=profileImage;
 
         const updateduser=await user.save()
-        return successEsponse(res,200,updateduser)
+        return successResponse(res,200,updateduser)
 
     } catch (error) {
         next(error)
@@ -90,7 +90,7 @@ const deleteUser= async(req,res,next)=>{
             }
         }
         await user.remove();
-        return successEsponse(res,200,{message:'User removed Successfully'})
+        return successResponse(res,200,{message:'User removed Successfully'})
     } catch (error) {
         next(error)
     }
@@ -110,7 +110,7 @@ const uploadProfileImage=async(req,res,next)=>{
         };
         user.profileImage= `/uploads/${req.file.filename}`;
         await user.save();
-        return successEsponse(res,200,{
+        return successResponse(res,200,{
             imageUrl:user.profileImage,
             message:'Profile Image uploaded successfully'
         })

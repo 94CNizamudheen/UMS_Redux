@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
 import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../App/hooks'
 import { useNavigate } from 'react-router-dom';
 import { User } from '../../Types';
 import { logout } from '../../Features/Auth/authSlice';
-import { deleteUser } from '../../Features/Users/userSlice';
+import { deleteUser, fetchUsers } from '../../Features/Users/userSlice';
 
 import UserModal from './UserModal';
 
@@ -13,26 +14,17 @@ const Dashboard: React.FC = () => {
 
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const { user, isAuthenticated } = useAppSelector((state) => state.auth);
-    const { users, isLoading, error } = useAppSelector((state) => state.users);
+    const {users, isLoading, error } = useAppSelector((state) => state.users);
 
     const [searchTerm, setSearchTerm] = useState('');
     const [showModal, setShowModal] = useState(false);
     const [currentUser, setCurrentUser] = useState<User | null>(null);
     const [isEditing, setIsEditing] = useState(false);
 
-
+ 
     useEffect(() => {
-        if (!isAuthenticated) {
-            navigate('/login')
-        }
-
-        if (user?.role !== "admin") {
-            navigate('/home');
-        }
-
-    }, [isAuthenticated, navigate, user]);
-
+      dispatch(fetchUsers());
+    }, [dispatch]);
 
     const handleLogout = () => {
         dispatch(logout());
@@ -42,16 +34,18 @@ const Dashboard: React.FC = () => {
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.target.value);
     };
-    const filteredUsers = users.filter((user: any) => {
+    const filteredUsers = Array.isArray(users)
+    ? users.filter((user: User) => {
         const searchLower = searchTerm.toLowerCase();
         return (
-            user.username.toLowerCase().includes(searchLower) ||
-            user.email.toLowerCase().includes(searchLower)
+          user.username.toLowerCase().includes(searchLower) ||
+          user.email.toLowerCase().includes(searchLower)
         );
-    });
+      })
+    : [];
 
     const handleAddUser = () => {
-        setCurrentUser(null);
+        setCurrentUser(null); 
         setIsEditing(false);
         setShowModal(true);
     }

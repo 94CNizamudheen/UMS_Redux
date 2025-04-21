@@ -19,3 +19,9 @@ router.route('/:id')
 router.post('/upload-profile-image',protect,uploadProfileImage,userController.uploadProfileImage)
 
 export default router;
+
+
+
+
+
+

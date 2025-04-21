@@ -17,8 +17,10 @@ export const login = createAsyncThunk(
         try {
             const response = await axios.post('http://localhost:8888/api/auth/login', credentials);
             console.log("login response ", response)
-            localStorage.setItem('token', response.data.token);
-            return response.data.data;
+            const{user,token}=response.data.data
+            localStorage.setItem('token', token);
+            localStorage.setItem('user', JSON.stringify(user));
+            return {user,token}
         } catch (error: unknown) {
             if (axios.isAxiosError(error) && error.response) {
                 return rejectWithValue(error.response.data?.message || 'Registration failed');
@@ -34,7 +36,6 @@ export const register = createAsyncThunk(
         try {
             const response = await axios.post('http://localhost:8888/api/auth/register', userData);
             localStorage.setItem('token', response.data.token);
-            console.log(response)
             return {
                 token: response.data.token,
                 user: response.data.user
