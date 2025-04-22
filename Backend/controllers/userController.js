@@ -3,7 +3,9 @@ import User from '../models/user.js';
 import {errorResponse,successResponse} from '../utils/response.js';
 import fs from 'fs';
 import path from 'path';
-
+import { fileURLToPath } from 'url';
+const __filename=fileURLToPath(import.meta.url);
+const __dirname= path.dirname(__filename);
 
 
 const getUsers=async(req,res,next)=>{
@@ -63,14 +65,16 @@ const updateUser=async(req,res,next)=>{
             return errorResponse(res,400,'Not authorized to update this user');
         }
         const {username,password,email,role,profileImage}= req.body;
-
+        console.log(profileImage)
         if(username) user.username=username;
         if(email) user.email=email;
         if(password) user.password=password;
         if(role&& req.user.role==='admin') user.role=role;
+     
         if(profileImage) user.profileImage=profileImage;
 
         const updateduser=await user.save()
+
         return successResponse(res,200,updateduser)
 
     } catch (error) {
@@ -96,31 +100,9 @@ const deleteUser= async(req,res,next)=>{
     }
 };
 
-const uploadProfileImage=async(req,res,next)=>{
-    try {
-        if(!req.file){
-            return errorResponse(res,400,"Please uplaod a file")
-        }
-        const user= await User.findById(req.user.id);
-        if(user.profileImage){
-            const oldImagePath=path.join(__dirname,'..',user.profileImage);
-            if(fs.existsSync(oldImagePath)){
-                fs.unlinkSync(oldImagePath);
-            }
-        };
-        user.profileImage= `/uploads/${req.file.filename}`;
-        await user.save();
-        return successResponse(res,200,{
-            imageUrl:user.profileImage,
-            message:'Profile Image uploaded successfully'
-        })
-    } catch (error) {
-        next(error)
-    }
-}
 
 const userController={
-    getUsers,getUserById,createUser,uploadProfileImage,deleteUser,updateUser
+    getUsers,getUserById,createUser,deleteUser,updateUser
 }
 
 export {userController}
