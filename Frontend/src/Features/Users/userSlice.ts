@@ -104,8 +104,8 @@ export const deleteUser = createAsyncThunk(
                     Authorization: `Bearer ${state.auth.token}`
                 }
             };
-            const response = await axios.delete(`http://localhost:8888/api/users/${userId}`, config);
-            return response.data;
+             await axios.delete(`http://localhost:8888/api/users/${userId}`, config);
+            return { _id: userId };
         } catch (error: any) {
             return rejectWithValue(error?.data?.message || "Failed to delete User")
         }
@@ -144,7 +144,7 @@ const usersSlice = createSlice({
             })
             .addCase(fetchUserbyId.fulfilled, (state, action: PayloadAction<User>) => {
                 state.isLoading = false;
-                state.users.push(action.payload);
+                state.users.unshift(action.payload)
             })
             .addCase(fetchUserbyId.rejected, (state, action) => {
                 state.isLoading = false;
@@ -174,14 +174,14 @@ const usersSlice = createSlice({
                 state.isLoading = true;
                 state.error = null;
             })
-            .addCase(deleteUser.fulfilled, (state, action: PayloadAction<User>) => {
-                state.isLoading = false;
-                state.users = state.users.filter(user => user._id !== action.payload._id);
-                if (state.selectedUser?._id === action.payload._id) {
-                    state.selectedUser = null;
-                }
+            .addCase(deleteUser.fulfilled, (state, action: PayloadAction<{ _id: string }>) => {
+    state.isLoading = false;
+    state.users = state.users.filter(user => user._id !== action.payload._id);
+    if (state.selectedUser?._id === action.payload._id) {
+        state.selectedUser = null;
+    }
+})
 
-            })
             .addCase(deleteUser.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.payload as string;

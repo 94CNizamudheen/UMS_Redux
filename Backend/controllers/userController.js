@@ -93,7 +93,7 @@ const deleteUser= async(req,res,next)=>{
                 fs.unlinkSync(imagePath);
             }
         }
-        await user.remove();
+        await User.findByIdAndDelete(req.params.id);
         return successResponse(res,200,{message:'User removed Successfully'})
     } catch (error) {
         next(error)
