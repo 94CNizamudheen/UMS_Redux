@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 
 import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../App/hooks'
@@ -66,7 +66,7 @@ const Dashboard: React.FC = () => {
 
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-gray-200">
           <nav className="bg-indigo-600 text-white shadow-md">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex items-center justify-between h-16">

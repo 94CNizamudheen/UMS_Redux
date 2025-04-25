@@ -46,7 +46,7 @@ const Login: React.FC = () => {
 
 
     return (
-        <div className='min-h-screen flex justify-center items-center bg-gray-50 py-12 px-4 sm:px-6 lg:px:8'>
+        <div className='min-h-screen flex justify-center items-center bg-gray-200 py-12 px-4 sm:px-6 lg:px:8'>
             <div className='max-w-md w-full space-y-8'>
                 <div>
                     <h2 className='mt-6 text-center text-3xl font-extrabold text-gray-800 '>Sign in to your account</h2>
@@ -59,8 +59,8 @@ const Login: React.FC = () => {
                 <form action="" onSubmit={formik.handleSubmit} className='mt-8 space-y-8'>
                     <div>
                         <div>
-                        <label htmlFor="email" className='sr-only'>Email address</label>
-                        <input type="email" id='email' name='email' autoComplete='email' required placeholder='Email address'
+                        <label htmlFor="email" className=''>Email address</label>
+                        <input type="email" id='email' name='email' autoComplete='email'  placeholder='Email address'
                             value={formik.values.email} onChange={formik.handleChange} onBlur={formik.handleBlur}
                             className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm' />
                         {formik.touched.email && formik.errors.email ? (

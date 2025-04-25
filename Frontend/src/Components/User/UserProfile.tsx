@@ -106,14 +106,14 @@ const UserProfile: React.FC = () => {
 
   if (authLoading || !user) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-200 flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-600"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-200 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md mx-auto bg-white shadow-md rounded-lg p-6">
         <h2 className="text-2xl font-bold mb-6 text-center">User Profile</h2>
         <div className="flex flex-col items-center mb-6">

@@ -11,7 +11,7 @@ const genarateToken=(id)=>{
 };
 
 const register= async(req,res,next)=>{
-    console.log("registration invoked")
+
     try {
         const {username,email,password}=req.body;
         const userExists= await User.findOne({email});
@@ -44,7 +44,6 @@ const register= async(req,res,next)=>{
     }
 };
  const login= async(req,res,next)=>{
-    console.log("Login invoked")
     try {
         const{email,password}=req.body;
         const user= await User.findOne({email}).select('+password');
