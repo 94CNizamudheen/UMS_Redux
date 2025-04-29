@@ -122,18 +122,24 @@ const UserProfile: React.FC = () => {
               <div className="w-full h-full rounded-full bg-gray-200 flex items-center justify-center">
                 <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gray-500"></div>
               </div>
-            ) : (
+            ) : uploadedImage || user?.profileImage ? (
               <img
-                src={uploadedImage || user?.profileImage || 'https://via.placeholder.com/150'}
+                src={uploadedImage || user?.profileImage}
                 alt="Profile Image"
                 className="w-full h-full rounded-full object-cover border-2 border-gray-200"
               />
+            ) : (
+              <div className="w-full h-full rounded-full bg-indigo-500 text-white flex items-center justify-center text-3xl font-bold border-2 border-gray-200">
+                {user?.username?.[0]?.toUpperCase() || 'U'}
+              </div>
             )}
+
             {isUploading && (
               <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full">
                 <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-white"></div>
               </div>
             )}
+
           </div>
           <div className="mb-4">
             <label

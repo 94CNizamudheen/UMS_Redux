@@ -36,11 +36,18 @@ const Home: React.FC = () => {
             </div>
             <div className="flex items-center">
               <Link to="/profile" className="flex items-center">
-                <img
-                  src={user?.profileImage || 'https://via.placeholder.com/150'}
-                  alt="Profile"
-                  className="w-8 h-8 rounded-full object-cover border-2 border-white mr-2"
-                />
+                {user?.profileImage ? (
+                  <img
+                    src={user.profileImage}
+                    alt={user.username[0]}
+                    className="w-8 h-8 rounded-full object-cover border-2 border-white mr-2"
+                  />
+                ) : (
+                  <div className="w-8 h-8 rounded-full bg-indigo-500 text-white flex items-center justify-center font-bold mr-2">
+                    {user.username[0].toUpperCase()}
+                  </div>
+                )}
+
                 <span className="text-white hover:bg-indigo-700 px-3 py-2 rounded-md text-sm font-medium">
                   Profile
                 </span>
@@ -63,11 +70,18 @@ const Home: React.FC = () => {
           <div className="bg-gray-50 p-4 rounded-md mb-6">
             <h2 className="text-xl font-semibold mb-4">Your Account Details</h2>
             <div className="flex flex-col items-center md:items-start mb-4">
-              <img
-                src={user?.profileImage || 'https://via.placeholder.com/150'}
-                alt="Profile"
-                className="w-24 h-24 rounded-full object-cover border-2 border-gray-200 mb-4"
-              />
+              {user?.profileImage ? (
+                <img
+                  src={user.profileImage}
+                  alt="Profile"
+                  className="w-24 h-24 rounded-full object-cover border-2 border-gray-200 mb-4"
+                />
+              ) : (
+                <div className="w-24 h-24 rounded-full bg-indigo-500 text-white flex items-center justify-center font-bold text-3xl border-2 border-gray-200 mb-4">
+                  {user.username[0].toUpperCase()}
+                </div>
+              )}
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
                 <div>
                   <p className="text-gray-600">Email:</p>
